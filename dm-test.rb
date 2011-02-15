@@ -11,36 +11,52 @@ DataMapper::Logger.new($stdout, :debug)
 DataMapper.setup(:default, "sqlite:#{DbFileName}")
 
 
+class Buildopt
+  include DataMapper::Resource
+
+  property :id, Serial
+  property :opt, String
+  #property :opt, String, :unique_index => true
+
+  belongs_to :project
+  belongs_to :slave
+
+  def show
+    puts "#{@opt} for #{@project} in #{@slave}"
+  end
+end
+
 class Slave
   include DataMapper::Resource
 
-#  property :id,   Serial
-  property :name, String, :key => true
+  property :id,   Serial
+  property :name, String, :unique_index => true
   property :ip,   String
   property :user, String
   property :pass, String
 
   has n, :build
+  has n, :buildopt
   #has n, :project
 end
 
 class Project
   include DataMapper::Resource
 
-#  property :id,     Serial
-  property :name,   String, :key => true
+  property :id,     Serial
+  property :name,   String, :unique_index => true
   property :url,    String
   property :period, String
 
   has n, :build
-  #has n, :slave
-  #
-  
+  has n, :buildopt
+
   def show
     puts "----------------------------------------------------------"
     puts " NAME       : #{@name}"
     puts " URL        : #{@url}"
     puts " Build each : #{@period}"
+    puts " Build Options : #{@buildopt_id.class}"
     puts "----------------------------------------------------------"
   end
 
@@ -65,47 +81,57 @@ class Build
     puts "Ended on #{@end_date}"
     puts "Duration #{@end_date - @start_date}"
     puts "Result #{@result}"
+    puts @project_id
+    prj = Project.get(@project_id)
+    prj.show
+    puts @slave_id
+#    puts "Build Option #{@slave.buildopt.class}"
+#    puts "Build Option #{@project.buildopt.class}"
     puts "----------------------------------------------------------"
   end
 
 end
 
-if ! File.exist?(DbFileName)
-  DataMapper.finalize
-  DataMapper.auto_migrate!
-  DataMapper.auto_upgrade!
+DataMapper.finalize
+DataMapper.auto_upgrade!
 
-  Project.create( :name => "eina",
-                 :url => "svn://svn.enlightenment.org/e/svn/trunk/eina",
-                 :period => "24m"
-                )
 
-  Slave.create( :name => "localhost",
-                :ip => "127.0.0.1",
-                :user => "toto",
-                :pass => "s3cr3t"
-               )
+prj = Project.first(:name => 'eina')
+slv = Slave.first(:name => 'localhost')
 
-  slv = Slave.get('localhost')
-  prj = Project.get('eina')
+if ! prj 
+   prj = Project.new( :name => "eina",
+                     :url => "svn://svn.enlightenment.org/e/svn/trunk/eina",
+                     :period => "24m"
+                    )
+   prj.save
+end
 
-  3.times do 
-    build = Build.create( :start_date => Time.now, :slave => slv, :project => prj )
-    sleep 2
-    build.end_date = Time.now
-    build.result = 0
-    build.save
-  end
+if ! slv
+  slv = Slave.new( :name => "localhost",
+                  :ip => "127.0.0.1",
+                  :user => "toto",
+                  :pass => "s3cr3t"
+                 )
+  slv.save
 end
 
 
-slv = Slave.get('localhost')
-prj = Project.get('eina')
 
+buildopt = Buildopt.create( :opt => "--enable-test", :project => prj, :slave => slv)
+buildopt.show
 
-prj.show
+build = Build.create( :start_date => Time.now, :slave => slv, :project => prj )
+sleep 2
+build.end_date = Time.now
+build.result = 0
+build.save
 
 builds = Build.all(:slave => slv)
-builds.each { |el|
-  el.show
-}
+if builds
+  builds.each { |el|
+    el.show
+  }
+else
+  puts "No builds"
+end
