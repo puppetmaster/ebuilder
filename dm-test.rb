@@ -7,19 +7,20 @@ require 'dm-migrations'
 
 DbFileName = "test.db"
 
-DataMapper::Logger.new($stdout, :debug)
+DataMapper::Logger.new("debug.out", :debug)
 DataMapper.setup(:default, "sqlite:#{DbFileName}")
 
 
 class Buildopt
   include DataMapper::Resource
 
-  property :id, Serial
-  property :opt, String
+#  property :id, Serial
+  property :opt, String, :key => true
+  #, :unique_index => true
   #property :opt, String, :unique_index => true
 
-  belongs_to :project
-  belongs_to :slave
+  belongs_to :project, :key => true
+  belongs_to :slave,   :key => true
 
   def show
     puts "#{@opt} for #{@project} in #{@slave}"
@@ -36,8 +37,8 @@ class Slave
   property :pass, String
 
   has n, :build
+  has n, :project, :through => :build
   has n, :buildopt
-  #has n, :project
 end
 
 class Project
@@ -49,6 +50,7 @@ class Project
   property :period, String
 
   has n, :build
+  has n, :slave, :through => :build
   has n, :buildopt
 
   def show
@@ -56,7 +58,6 @@ class Project
     puts " NAME       : #{@name}"
     puts " URL        : #{@url}"
     puts " Build each : #{@period}"
-    puts " Build Options : #{@buildopt_id.class}"
     puts "----------------------------------------------------------"
   end
 
@@ -68,25 +69,28 @@ class Build
   property :id,         Serial
   property :start_date, DateTime, :required => true
   property :end_date,   DateTime #, :required => false
-  property :result,     Integer #  :required => false
+  property :result,     Integer #  :required => false=
 
-  belongs_to :slave
-  belongs_to :project
+  belongs_to :slave,   :key => true
+  belongs_to :project, :key => true
+  has n, :buildopt, :through => :slave , :via => :target
+#  has n, :buildopt, :through => :project 
 
   def show
     puts "----------------------------------------------------------"
     puts "Build #{@id}"
     puts "----------------------------------------------------------"
-    puts "Started on #{@start_date}"
-    puts "Ended on #{@end_date}"
-    puts "Duration #{@end_date - @start_date}"
-    puts "Result #{@result}"
-    puts @project_id
-    prj = Project.get(@project_id)
-    prj.show
-    puts @slave_id
-#    puts "Build Option #{@slave.buildopt.class}"
-#    puts "Build Option #{@project.buildopt.class}"
+    puts " Build of : #{self.project.name}"
+    puts " Build on : #{self.slave.name}"
+    puts "----------------------------------------------------------"
+    puts "  Started on    : #{@start_date}"
+    puts "  Ended on      : #{@end_date}"
+    puts "  Duration      : #{@end_date - @start_date}"
+    puts "  Result        : #{@result}"
+    puts "  Build Options :"
+    self.buildopt.each do |bo|
+      puts "   #{bo.key}"
+    end
     puts "----------------------------------------------------------"
   end
 
@@ -94,7 +98,6 @@ end
 
 DataMapper.finalize
 DataMapper.auto_upgrade!
-
 
 prj = Project.first(:name => 'eina')
 slv = Slave.first(:name => 'localhost')
@@ -114,12 +117,27 @@ if ! slv
                   :pass => "s3cr3t"
                  )
   slv.save
+  Slave.create( :name => "sol",
+               :ip => "192.168.42.42",
+               :user => "john",
+               :pass => "Phili"
+              )
 end
 
 
+slave = Slave.first(:name => "sol")
+begin
+  Buildopt.create(:opt => "--test", :slave => slv, :project => prj)
+  Buildopt.create(:opt => "--list", :slave => slv, :project => prj)
+  Buildopt.create(:opt => "--Grow", :slave => slv, :project => prj)
+  Buildopt.create(:opt => "--solaris", :slave => slave, :project => prj)
+rescue
+  puts "hoho"
+end
 
-buildopt = Buildopt.create( :opt => "--enable-test", :project => prj, :slave => slv)
-buildopt.show
+Buildopt.all.each { |op|
+  puts op.opt
+}
 
 build = Build.create( :start_date => Time.now, :slave => slv, :project => prj )
 sleep 2
@@ -127,7 +145,12 @@ build.end_date = Time.now
 build.result = 0
 build.save
 
-builds = Build.all(:slave => slv)
+bl = Build.create(:start_date => Time.now, :slave => slave, :project => prj)
+bl.end_date = Time.now
+bl.result = 1
+bl.save
+
+builds = Build.all #(:slave => slv)
 if builds
   builds.each { |el|
     el.show
