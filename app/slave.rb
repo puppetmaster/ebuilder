@@ -2,6 +2,8 @@
 # -oOo- SLAVE -oOo- 
 #
 
+$menu[:Slaves] = "/slave/"
+
 get '/slave/' do
   @slaves = Slave.all
   if @slaves.empty?

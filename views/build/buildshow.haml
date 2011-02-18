@@ -1,0 +1,32 @@
+%h1 Build :
+%table{:border => "1"}
+  - @build.attributes.each_pair do |atr,val|
+    - if "#{atr}" != "id" and "#{atr}" != "pass"
+      -if "#{atr}" == "slave_id"
+        -slv = Slave.get(val)
+        %tr
+          %th Slave
+          %td
+            %a{:href => "/slave/show/#{val}"}= slv.name
+      -elsif "#{atr}" == "project_id"
+        - prj = Project.get(val)
+        %tr
+          %th Project
+          %td
+            %a{:href => "/project/show/#{val}"}= prj.name
+      -else
+        %tr
+          %th= atr.capitalize
+          - if "#{atr}" == "result"
+            - if val == 0
+              %td
+                %font{:color => "green"} SUCCESS
+            -else
+              %td
+                %font{:color => "red"} FAILED
+          -else
+            - if val.class == DateTime
+              %td= val.strftime("%d/%m/%Y @ %H:%M:%S")
+            - else
+              %td= val
+

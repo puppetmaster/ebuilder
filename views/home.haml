@@ -1,1 +1,10 @@
 %h1 Ebuilder Home !
+
+%h2 Build Summary
+- @projects.each do |prj|
+  %p= "Project #{prj.name}"
+  - @builds.each do |bld|
+    -if bld.project_id == prj.id
+      - slv = Slave.get(bld.slave_id).name
+      %p= "on #{slv} " + bld.start_date.strftime("%d/%m/%Y @ %H:%M:%S") + " => " + bld.result.to_s
+

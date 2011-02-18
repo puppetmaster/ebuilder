@@ -1,6 +1,9 @@
 #
 # -oOo- PROJECT -oOo-
 #
+
+$menu[:Projects] = "/project/"
+
 get '/project/' do
   @projects = Project.all
   if @projects.empty?
