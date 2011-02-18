@@ -1,0 +1,18 @@
+%h1 Add new Slave
+%form{:action => "/slave/create", :method => "post"}
+  %legend
+    Slave informations
+  %p
+    %label{:for => ""} Hostname :
+    %input{:type => "textbox", :name => "name", :id => "name"}
+  %p
+    %label{:for => ""} I.P. Address :
+    %input{:type => "textbox", :name => "ip", :id => "ip"}
+  %p
+    %label{:for => ""} User :
+    %input{:type => "textbox", :name => "user", :id => "user"}
+  %p
+    %label{:for => ""} Password :
+    %input{:type => "password", :name => "pass", :id => "pass"}
+  %p
+    %input{:type => "submit", :value => "Submit!"}

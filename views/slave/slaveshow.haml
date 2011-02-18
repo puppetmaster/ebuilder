@@ -1,0 +1,8 @@
+%h1 Slave :
+%table{:border => "1"}
+  - @slave.attributes.each_pair do |atr,val|
+    - if "#{atr}" != "id" and "#{atr}" != "pass"
+      %tr
+        %th= atr.capitalize
+        %td= val
+

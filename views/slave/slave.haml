@@ -1,0 +1,17 @@
+%h1{:align => "center"} Slave list
+%table{:BORDER => "2", :align => "center"}
+  %tr
+    - @slaves[0].attributes.each_key do |atr|
+      - if "#{atr}" != "pass" and "#{atr}" != "id"
+        %th= atr.capitalize
+    %th Edit
+    %th Remove
+    - @slaves.each do |slv|
+      %tr
+      - slv.attributes.each_pair do |key,val|
+        - if "#{key}" != "pass" and "#{key}" != "id"
+          %td= val
+      %td
+        %a{:href => "/slave/edit/#{slv.id}"} Edit
+      %td
+        %a{:href => "/slave/delete/#{slv.id}", :method => "delete" } Delete

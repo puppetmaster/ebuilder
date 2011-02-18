@@ -1,0 +1,16 @@
+%h1{:align => "center"} Project list
+%table{:BORDER => "2", :align => "center"}
+  %tr
+    - @projects[0].attributes.each_key do |atr|
+      - if "#{atr}" != "pass" and "#{atr}" != "id"
+        %th= atr.capitalize
+    %th{:colspan => "2"} Actions 
+    - @projects.each do |prj|
+      %tr
+      - prj.attributes.each_pair do |key,val|
+        - if "#{key}" != "pass" and "#{key}" != "id"
+          %td= val
+      %td
+        %a{:href => "/project/edit/#{prj.id}"} Edit
+      %td
+        %a{:href => "/project/delete/#{prj.id}", :method => "delete" } Delete

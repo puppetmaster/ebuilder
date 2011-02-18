@@ -1,0 +1,15 @@
+%h1 Add new project
+%form{:action => "/project/create", :method => "post"}
+  %legend
+    Project informations
+  %p
+    %label{:for => ""} Name :
+    %input{:type => "textbox", :name => "name", :id => "name"}
+  %p
+    %label{:for => ""} URL :
+    %input{:type => "textbox", :name => "url", :id => "url"}
+  %p
+    %label{:for => ""} Build each :
+    %input{:type => "textbox", :name => "period", :id => "period"}
+  %p
+    %input{:type => "submit", :value => "Submit!"}

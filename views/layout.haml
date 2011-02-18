@@ -1,0 +1,15 @@
+!!!
+%html
+  %head
+    %title Ebuilder 2
+    %link{:rel => "stylesheet", :type => "text/css", :href => "/main.css"}
+  %body
+    %ul.horizontal
+      %li
+        %a{:href => "/"} Home
+      %li
+        %a{:href => '/slave/'} Slaves
+      %li
+        %a{:href => "/project/"} Projects
+    %h1{:align => "center"} Ebuilder 
+    = yield

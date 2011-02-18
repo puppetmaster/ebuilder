@@ -1,0 +1,17 @@
+%h1= "Editing #{@project.name} project"
+%form{:action => "/project/update", :method => "post"}
+  %legend
+    Project informations
+  %p
+    %input{:type => "hidden", :name => "id", :id => "id", :value => "#{@project.id}"}
+  %p
+    %label{:for => ""} Name :
+    %input{:type => "textbox", :name => "name", :id => "name", :value => "#{@project.name}"}
+  %p
+    %label{:for => ""} URL :
+    %input{:type => "textbox", :name => "url", :id => "url", :value => "#{@project.url}"}
+  %p
+    %label{:for => ""} Build each :
+    %input{:type => "textbox", :name => "period", :id => "period", :value => "#{@project.period}"}
+  %p
+    %input{:type => "submit", :value => "Submit!"}
