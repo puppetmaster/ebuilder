@@ -1,8 +1,8 @@
 class Buildopt
   include DataMapper::Resource
 
-#  property :id, Serial
-  property :opt, String, :key => true
+  property :id, Serial
+  property :opt, String, :unique_index => true
   #, :unique_index => true
   #property :opt, String, :unique_index => true
 

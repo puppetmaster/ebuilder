@@ -31,6 +31,7 @@ $menu[:Home] = "/"
 require 'app/slave'
 require 'app/project'
 require 'app/build'
+require 'app/buildopt'
 
 get '/' do 
   @projects = Project.all

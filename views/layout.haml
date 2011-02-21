@@ -7,7 +7,7 @@
     %ul.tabnav
       - $menu.each_pair do |name,link|
         %li
-          %a{:href => "#{link}"}= name
+          %a{:href => "#{link}"}= name.to_s.gsub('_'," ")
     %a{:href => "/"}
       %img{ :src => "/img/logo-ebuilder.png", :alt => "Ebuilder", :border => "0" } 
     %hr

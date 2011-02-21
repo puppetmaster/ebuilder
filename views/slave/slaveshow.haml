@@ -1,8 +1,23 @@
 %h1 Slave :
-%table{:border => "1"}
+%table
   - @slave.attributes.each_pair do |atr,val|
     - if "#{atr}" != "id" and "#{atr}" != "pass"
       %tr
         %th= atr.capitalize
         %td= val
 
+%h3= "Build Options for #{@slave.name}"
+%table
+  %th Option
+  %th Project
+  %tr
+  - if @options
+    - @options.each do |opt|
+      %td= opt.opt
+      - proj = Project.get(opt.project_id)
+      - if proj
+        %td
+          %a{:href => "/project/show/#{proj.id}"}= proj.name
+          %tr
+      - else
+        %td None

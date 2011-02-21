@@ -4,13 +4,14 @@
     - @slaves[0].attributes.each_key do |atr|
       - if "#{atr}" != "pass" and "#{atr}" != "id"
         %th= atr.capitalize
-    %th Edit
-    %th Remove
+    %th{:colspan => '3'} Actions
     - @slaves.each do |slv|
       %tr
       - slv.attributes.each_pair do |key,val|
         - if "#{key}" != "pass" and "#{key}" != "id"
           %td= val
+      %td
+        %a{:href => "/slave/show/#{slv.id}"} Details
       %td
         %a{:href => "/slave/edit/#{slv.id}"} Edit
       %td

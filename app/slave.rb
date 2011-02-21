@@ -15,6 +15,7 @@ end
 
 get '/slave/show/:id' do
   @slave = Slave.get(params[:id])
+  @options = Buildopt.all(:slave_id => params[:id])
   haml :'/slave/slaveshow'
 end
 

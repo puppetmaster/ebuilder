@@ -15,6 +15,7 @@ end
 
 get '/project/show/:id' do
   @project = Project.get(params[:id])
+  @options = Buildopt.all(:project_id => params[:id])
   haml :'project/projectshow'
 end
 
