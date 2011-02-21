@@ -1,0 +1,44 @@
+%h1{:align => "center"} Full build list
+%table{:align => "center"}
+  %tr
+    - @buildopts[0].attributes.each_key do |atr|
+      - if "#{atr}" != "id"
+        %th= atr.to_s.capitalize.gsub('_',' ')
+    %th{:colspan => "3"} Actions 
+    - @buildopts.each do |bld|
+      %tr
+      - bld.attributes.each_pair do |key,val|
+        -if "#{key}" != "id"
+          -if "#{key}" == "slave_id"
+            - if slv = Slave.get(val)
+              %td
+                %a{:href => "/slave/show/#{val}"}= slv.name
+            - else
+              %td= val
+          -elsif "#{key}" == "project_id"
+            - if prj = Project.get(val)
+              %td
+                %a{:href => "/project/show/#{val}"}= prj.name
+            -else
+              %td= val
+          -else
+            -if "#{key}" == "result"
+              - if val == 0
+                %td 
+                  %font{:color => "green"}
+                    %b SUCESS
+              - else
+                %td 
+                  %font{:color => "red"}
+                    %b FAILED
+            -else
+              -if val.class == DateTime
+                %td= val.strftime("%d %B %Y at %H:%M:%S")
+              -else
+                %td= val
+      %td
+        %a{:href => "/buildopt/show/#{bld.id}/#{bld.slave_id}/#{bld.project_id}"} Details
+      %td
+        %a{:href => "/buildopt/edit/#{bld.id}"} Edit
+      %td
+        %a{:href => "/buildopt/delete/#{bld.id}", :method => "delete" } Delete

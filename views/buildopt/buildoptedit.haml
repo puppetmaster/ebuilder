@@ -1,0 +1,19 @@
+%h1= "Edit Slave #{@slave.name}"
+%form{:action => "/slave/update", :method => "post"}
+  %legend
+    Slave informations
+  %p
+    %input{:type => "hidden", :name => "id", :id => 'id',:value => @slave.id}
+    %label{:for => ""} Hostname :
+    %input{:type => "textbox", :name => "name", :id => "name", :value => @slave.name}
+  %p
+    %label{:for => ""} I.P. Address :
+    %input{:type => "textbox", :name => "ip", :id => "ip", :value => @slave.ip}
+  %p
+    %label{:for => ""} User :
+    %input{:type => "textbox", :name => "user", :id => "user", :value => @slave.user}
+  %p
+    %label{:for => ""} Password :
+    %input{:type => "password", :name => "pass", :id => "pass", :value => "nochange"}
+  %p
+    %input{:type => "submit", :value => "Submit!"}
