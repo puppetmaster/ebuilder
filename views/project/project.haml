@@ -1,5 +1,5 @@
-%h1{:align => "center"} Project list
-%table{:BORDER => "2", :align => "center"}
+%h1{:align => "center"} Builded Projects
+%table{:align => "center"}
   %tr
     - @projects[0].attributes.each_key do |atr|
       - if "#{atr}" != "pass" and "#{atr}" != "id"

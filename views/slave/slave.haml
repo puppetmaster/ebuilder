@@ -1,5 +1,5 @@
-%h1{:align => "center"} Slave list
-%table{:BORDER => "2", :align => "center"}
+%h1{:align => "center"} Build Slaves
+%table{:align => "center"}
   %tr
     - @slaves[0].attributes.each_key do |atr|
       - if "#{atr}" != "pass" and "#{atr}" != "id"

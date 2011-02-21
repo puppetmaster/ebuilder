@@ -1,10 +1,24 @@
-%h1 Ebuilder Home !
+%h1{:align => 'center'} Build Summary
 
-%h2 Build Summary
-- @projects.each do |prj|
-  %p= "Project #{prj.name}"
-  - @builds.each do |bld|
-    -if bld.project_id == prj.id
-      - slv = Slave.get(bld.slave_id).name
-      %p= "on #{slv} " + bld.start_date.strftime("%d/%m/%Y @ %H:%M:%S") + " => " + bld.result.to_s
-
+%table{:align => 'center'}
+  %th
+  - @projects.each do |prj|
+    %th #{prj.name}
+  %tr
+  - @slaves.each do |slv|
+    %th #{slv.name}
+    - @projects.each do |prj|
+      - if bld = @builds.first(1,{:slave_id => slv.id, :project_id => prj.id })
+        - if bld.first 
+          - if bld.first.result == 0
+            %td 
+              %font{:color => "green"}
+                %a{:href => "build/show/#{bld.first.id}/#{slv.id}/#{prj.id}"} SUCCESS
+          -else
+            %td 
+              %font{:color => "red"}
+                %a{:href => "build/show/#{bld.first.id}/#{slv.id}/#{prj.id}"} FAILED
+        - else
+          %td
+            %i No build
+    %tr

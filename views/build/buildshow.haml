@@ -1,5 +1,5 @@
-%h1 Build :
-%table{:border => "1"}
+%h1{:align => "center"} Build détails
+%table{:align => "center"}
   - @build.attributes.each_pair do |atr,val|
     - if "#{atr}" != "id" and "#{atr}" != "pass"
       -if "#{atr}" == "slave_id"

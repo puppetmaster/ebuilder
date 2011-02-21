@@ -4,9 +4,11 @@
     %title Ebuilder 2
     %link{:rel => "stylesheet", :type => "text/css", :href => "/main.css"}
   %body
-    %ul.horizontal
+    %ul.tabnav
       - $menu.each_pair do |name,link|
         %li
           %a{:href => "#{link}"}= name
-    %h1{:align => "center"} Ebuilder 
+    %a{:href => "/"}
+      %img{ :src => "/img/logo-ebuilder.png", :alt => "Ebuilder", :border => "0" } 
+    %hr
     = yield

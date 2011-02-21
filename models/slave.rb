@@ -10,4 +10,5 @@ class Slave
   has n, :build
   has n, :project, :through => :build
   has n, :buildopt
+
 end

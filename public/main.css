@@ -1,3 +1,37 @@
+ul.tabnav {
+    font: bold 11px verdana, arial, sans-serif;
+    list-style-type: none;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #686868;
+    margin: 0;
+}
+
+ul.tabnav li {
+    float: left;
+    height: 21px;
+    background-color: #E0E0E0 ;
+    margin: 2px 2px 0 2px;
+    border: 1px solid #686868 ;
+}
+
+ul.tabnav li.active {
+    border-bottom: 1px solid #fff;
+    background-color: #fff;
+}
+
+.tabnav a {
+    float: left;
+    display: block;
+    color: #686868 ;
+    text-decoration: none;
+    padding: 4px;
+}
+
+.tabnav a:hover {
+    background: #fff;
+}
+
+
 ul.horizontal, ol.horizontal, .horizontal li {
   display: inline;
   margin:20px;
