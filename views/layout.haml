@@ -8,7 +8,7 @@
       - $menu.each_pair do |name,link|
         %li
           %a{:href => "#{link}"}= name.to_s.gsub('_'," ")
-    %a{:href => "/"}
-      %img{ :src => "/img/logo-ebuilder.png", :alt => "Ebuilder", :border => "0" } 
-    %hr
+    %p.banner
+      %a{:href => "/",:align => "center"}
+        %img{ :align => "center", :src => "/img/logo-ebuilder.png", :alt => "Ebuilder", :border => "0" } 
     = yield

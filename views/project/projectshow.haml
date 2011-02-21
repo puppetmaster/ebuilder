@@ -1,4 +1,4 @@
-%h1 Project :
+%p.page_title Project :
 
 %p
   %a{:href => "/project/edit/#{@project.id}"} Edit
@@ -10,7 +10,7 @@
         %th= atr.capitalize
         %td= val
 %h3= "Build Options for #{@project.name}"
-%table{:border => '1'}
+%table
   %th Option
   %th Host
   %tr

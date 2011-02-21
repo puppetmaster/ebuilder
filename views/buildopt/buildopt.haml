@@ -1,4 +1,4 @@
-%h1{:align => "center"} Full build list
+%p.page_title Full build list
 %table{:align => "center"}
   %tr
     - @buildopts[0].attributes.each_key do |atr|
@@ -26,7 +26,7 @@
               - if val == 0
                 %td 
                   %font{:color => "green"}
-                    %b SUCESS
+                    %b SUCCESS
               - else
                 %td 
                   %font{:color => "red"}

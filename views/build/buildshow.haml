@@ -1,4 +1,4 @@
-%h1{:align => "center"} Build détails
+%p.page_titile Build détails
 %table{:align => "center"}
   - @build.attributes.each_pair do |atr,val|
     - if "#{atr}" != "id" and "#{atr}" != "pass"
