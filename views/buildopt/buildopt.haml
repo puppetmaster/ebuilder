@@ -1,4 +1,4 @@
-%p.page_title Full build list
+%p.page_title Full build options list
 %table{:align => "center"}
   %tr
     - @buildopts[0].attributes.each_key do |atr|
@@ -37,8 +37,11 @@
               -else
                 %td= val
       %td
-        %a{:href => "/buildopt/show/#{bld.id}/#{bld.slave_id}/#{bld.project_id}"} Details
+        %a{:href => "/buildopt/show/#{bld.id}/#{bld.slave_id}/#{bld.project_id}"}
+          %img{:src => '/img/loupe.png',:alt => 'Details', :border => 0}
       %td
-        %a{:href => "/buildopt/edit/#{bld.id}"} Edit
+        %a{:href => "/buildopt/edit/#{bld.id}"}
+          %img{:src => '/img/crayon.png',:alt => 'Edit', :border => 0}
       %td
-        %a{:href => "/buildopt/delete/#{bld.id}", :method => "delete" } Delete
+        %a{:href => "/buildopt/delete/#{bld.id}", :method => "delete" }
+          %img{:src => '/img/delete.png',:alt => 'Remove', :border => 0}

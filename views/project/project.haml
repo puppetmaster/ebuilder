@@ -11,8 +11,11 @@
         - if "#{key}" != "pass" and "#{key}" != "id"
           %td= val
       %td
-        %a{:href => "/project/show/#{prj.id}"} Details
+        %a{:href => "/project/show/#{prj.id}"}
+          %img{:src => '/img/loupe.png',:alt => 'Details', :border => 0}
       %td
-        %a{:href => "/project/edit/#{prj.id}"} Edit
+        %a{:href => "/project/edit/#{prj.id}"}
+          %img{:src => '/img/crayon.png',:alt => 'Edit', :border => 0}
       %td
-        %a{:href => "/project/delete/#{prj.id}", :method => "delete" } Delete
+        %a{:href => "/project/delete/#{prj.id}", :method => "delete" }
+          %img{:src => '/img/delete.png',:alt => 'Remove', :border => 0}
